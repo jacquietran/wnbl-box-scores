@@ -1,0 +1,32 @@
+function toggleclasses (containerElem, musthaveclass, filterclass, show)   {
+    jQuery('#' + containerElem + ' .' + musthaveclass).each(function(index,value)  {
+        found = 0;
+        classes = filterclass.split(' ');
+        if(classes[1])  {
+            if( jQuery(this).hasClass(classes[0]) &&  jQuery(this).hasClass(classes[1]))    {
+            found = 1;
+            }
+        }
+        else    {
+            found = jQuery(this).hasClass(filterclass);
+        }
+        if(jQuery(this).hasClass(filterclass))  {
+            if(show)    {
+                jQuery(this).show();
+            }
+            else    {
+                jQuery(this).hide();
+            }
+        }
+        else    {
+            if(!show)    {
+                jQuery(this).show();
+            }
+            else    {
+                jQuery(this).hide();
+            }
+        }
+
+    });
+}
+

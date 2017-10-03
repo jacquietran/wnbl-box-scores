@@ -1,0 +1,250 @@
+jQuery(document).ready(function() {
+         jQuery('#languageChooser').on('change', function () {
+          var url = jQuery(this).val();
+          if (url) {
+              window.location = url;
+          }
+          return false;
+      });
+      jQuery('#dateChooser').on('change', function () {
+          var url = jQuery(this).val();
+          if (url) {
+              window.location = url;
+          }
+          return false;
+      });
+    getLiveData();
+});
+
+function htmlValInit(dataarray) {
+    for(var key in dataarray) {
+        val = dataarray[key];
+        if(typeof(val) == 'boolean')    {
+            jQuery('#' + key ).attr('checked',val);
+        }
+        else    {
+            if(val.indexOf('|') >= 0)    {
+                jQuery('#' + key ).val(val.split('|'));
+                setMultiSelectOrder(key, val); 
+            }
+            else    {
+                jQuery('#' + key ).val(val);
+            }
+        }
+    }
+}
+
+function setMultiSelectOrder(key,val)   {
+    if(val)    {
+        window['MultiSelectorder_' + key] = val;
+    }
+    else    {
+        val = window['MultiSelectorder_' + key];
+    }
+    if(val) {
+        selectElement = jQuery('#' + key);
+        p = jQuery('#' + key).parent();
+        container = jQuery(p).find('ul.selected');
+        if(container.length)   {
+            valArray = val.split('|');
+            jQuery.each(valArray, function(index, data)  {
+                title = jQuery("#" + key + " option[value='" + data + "']").text();
+                container.append(jQuery(container).find("li.ui-element[title='" + title + "']"));
+                selectElement.append(jQuery(selectElement).find("option[value='" + data + "']"));
+            });
+        }
+    }
+}
+
+function postSize(e){
+  var target = parent.postMessage ? parent : (parent.document.postMessage ? parent.document : undefined);
+  if (typeof target != "undefined" && document.body.scrollHeight && self != top )
+    target.postMessage(document.body.scrollWidth+ ":" + document.body.scrollHeight, "*");
+}
+window.addEventListener("load", postSize, false);
+
+
+function validateSetup(setup,domains, invalidUrl) {
+    if(setup==1)    { // in a frame and shouldn't be
+      if (top.location != location) {
+        top.location.href = document.location.href ;
+      }
+    }
+    else if(setup ==2)   {
+        invalid = 0;
+        if (top.location == location) {
+            invalid = 1;
+        }
+        if(!invalid)   {
+            hostname = document.referrer.match(/:\/\/(.[^/]+)/)[1];
+            allowedDomains = domains;
+
+            function endsWith(str, suffix) {
+                a = str.indexOf(suffix, str.length - suffix.length) !== -1;
+                return str.indexOf(suffix, str.length - suffix.length) !== -1;
+            }
+
+            var allowed = 0;
+            for (var index in allowedDomains) {
+                if(endsWith(hostname,allowedDomains[index]))    {
+                    allowed = 1;
+                }
+            }
+            if(!allowed) { invalid = 1; }
+        }
+        if(invalid)    {
+            document.location.href = invalidUrl;
+        }
+    }
+}
+
+function responsiveClasses() {
+  var containers = document.getElementsByClassName("hs-page");
+  for(var i = 0; i < containers.length; i++)
+  {
+    var containerElem = containers.item(i);
+    if (typeof(containerElem) != 'undefined' && containerElem != null)
+    {
+      var containerElemWidth = parseInt(containerElem.offsetWidth);
+
+      var classes = ["xs-hs-container", "sm-hs-container", "md-hs-container", "lg-hs-container"];
+      classes.forEach(function(className, index) {
+        removeClass(className, containerElem);
+      });
+
+      switch(true) {
+          case (containerElemWidth < 768):
+            addClass('xs-hs-container', containerElem);
+            break;
+          case (containerElemWidth < 989):
+            addClass('sm-hs-container', containerElem);
+            break;
+          case (containerElemWidth < 1200):
+            addClass('md-hs-container', containerElem);
+            break;
+          case (containerElemWidth > 1199):
+            addClass('lg-hs-container', containerElem);
+          // lg
+              break;
+          default:
+      }  
+    }
+  }
+}
+
+if(window.attachEvent) {
+    window.attachEvent('onresize', function() {
+        responsiveClasses();
+    });
+}
+else if(window.addEventListener) {
+    window.addEventListener('resize', function() {
+        responsiveClasses();
+    }, true);
+}
+window.addEventListener('load', function() {
+    responsiveClasses();
+
+}, true);
+var responsiveTimer;
+responsiveTimer = setTimeout(responsiveClasses, 3500);
+responsiveClasses();
+
+function addClass( classname, element ) {
+    var cn = element.className;
+    //test for existance
+    if( cn.indexOf( classname ) != -1 ) {
+        return;
+    }
+    //add a space if the element already has class
+    if( cn != '' ) {
+        classname = ' '+classname;
+    }
+    element.className = cn+classname;
+}
+
+function removeClass( classname, element ) {
+    var cn = element.className;
+    var rxp = new RegExp( "\\s?\\b"+classname+"\\b", "g" );
+    cn = cn.replace( rxp, '' );
+    element.className = cn;
+}
+
+document.addEventListener("DOMContentLoaded", function(event) {
+   document.querySelectorAll('img').forEach(function(img){
+    img.onerror = function(){this.style.display='none';};
+   })
+});
+
+function printElem(divId,path) {
+    var content = document.getElementById(divId).innerHTML;
+    var mywindow = window.open('', ' ', 'height=600,width=800');
+
+    mywindow.document.write('<html><head><title> </title>');
+    mywindow.document.write('<link rel="stylesheet" href="'+path+'/css/hs-style-print.css" type="text/css" />');    
+    mywindow.document.write('</head><body class="hs-print">');
+    mywindow.document.write(content);
+    mywindow.document.write('</body></html>');
+
+    mywindow.document.close();
+    mywindow.focus()
+    setTimeout(function(){mywindow.print();},500);
+    setTimeout(function(){mywindow.close();},500);
+    setTimeout( function() {
+      if(!mywindow || mywindow.outerHeight === 0) {
+          alert(popupMessage);
+      } 
+    }, 25);    
+    return true;
+}
+
+function getLiveData()  {
+  var competitionId = jQuery("#competitionId").val() || '';
+  var summaryPageActive = jQuery("#summaryPageActive").val() || false;
+  var datapath = jQuery("#datapath").val() || '';
+  var sport = jQuery("#sport").val() || '';
+  var baseurl = jQuery("#_baseURL").val() || '';
+  var jsonfile = baseurl + '/ldata/' + sport + '/competitions/comp' + competitionId + '.json';
+  var matchesstr = jQuery("#_livematches").val() || '';
+  if(!matchesstr) {
+    return true;
+  }
+  jQuery.getJSON(jsonfile,function(data)  {
+    var matchesstr = jQuery("#_livematches").val() || '';
+    var matches = matchesstr.split(',');
+    jQuery.each(matches, function(index)  {
+        if(data[matches[index]])   {
+            mId = matches[index];
+            md = data[matches[index]];
+            var clock = md['clock'];
+            if (sport == "football"){
+              clock = clock.slice(0, -3);
+            }
+            if (
+                !jQuery('#extfix_' + mId + ' .notlive .complete.matchStatus').length
+                && !jQuery('#extfix_' + mId + ' .notlive .postponed.matchStatus').length
+                && !jQuery('#extfix_' + mId + ' .notlive .cancelled.matchStatus').length
+            ){
+              if(md['status'] != 'COMPLETE')  {
+                  jQuery('#extfix_' + mId + ' .notlive').hide();
+                  jQuery('#extfix_' + mId + ' .livenow').show();
+                  jQuery('.extfix_' + mId + '.notlive').hide();
+                  jQuery('.extfix_' + mId + '.livenow').show();
+                  jQuery('#extfix_' + mId + ' .liveperiod').html(md['period']);
+                  jQuery('#extfix_' + mId + ' .liveclock').html(clock);
+              }
+              jQuery('#extfix_' + mId + ' .homescore div').html(md['scores'][1]);
+              jQuery('#extfix_' + mId + ' .awayscore div').html(md['scores'][2]);
+              jQuery('#extfix_' + mId + ' .home-wrapper div.score').html(md['scores'][1]);
+              jQuery('#extfix_' + mId + ' .away-wrapper div.score').html(md['scores'][2]);
+            }
+            if(summaryPageActive){
+              var summaryLink = jQuery('#extfix_' + mId + ' .match-center-link a').attr('href');
+              summaryLink.replace("preview", "summary");
+              jQuery('#extfix_' + mId + ' .match-center-link a').attr('href', summaryLink);
+            }
+        }
+    });
+  });
+  setTimeout(getLiveData,60000);
+}
