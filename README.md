@@ -21,4 +21,7 @@ The outputs from these scripts are also saved as CSV files if you want to jump s
 
 ## Version history
 
+* v1.1: Published on 03/10/2017
+     * [x] Incorporated box score data from an alternative source due to missing data on FIBA Live Stats website
+     * [x] Fixed errors in the data scraping script for 2014 / 2015 season
 * v1.0: Published on 03/10/2017
