@@ -1,14 +1,14 @@
-# WNBL Box Scores
+# WNBL Box Scores - What's in this repository
 
-## What's in this repository?
+Repo created and maintained by Jacquie Tran.
 
-### Scripts
+## Scripts
 Use the R scripts in this repo to:
 
 * Scrape data from FIBA LiveStats pages for Women's National Basketball League (WNBL) games played in the 2014 / 2015, 2015 / 2016, and 2016 / 2017 seasons.
 * Clean the scraped data and create new variables (e.g., Dean Oliver's Four Factors)
 
-### Outputs
+## Outputs
 The outputs from these scripts are also saved as CSV files if you want to jump straight to the data sets themselves (and you trust that my scraping and cleaning procedures are correct!). Outputs include:
 
 * **WNBLBoxScores######Raw.csv:** Raw data obtained from scraping process, minimal cleaning performed.
