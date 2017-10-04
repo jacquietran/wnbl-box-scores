@@ -1,0 +1,312 @@
+
+
+  
+    
+  
+/* utrack 2016-05-06T05:46:15.680Z 6b036f812a2606cadd120c5e60dde5895d22e6d8
+ */
+utag_data = window.utag_data || {};
+newskey = window.newskey || {};
+
+if (!newskey.utrack_loaded || false) {
+	
+  
+  
+  
+  
+
+
+  
+    
+  
+
+
+  
+    
+  
+
+
+  
+    
+  
+
+
+    
+    newskey.prev_nk = "01ed7bfd9525a8b7f49b1c90137c33ed";
+    newskey.nk = "01ed7bfd9525a8b7f49b1c90137c33ed";
+    newskey.nk_src = "utrack.esi";
+    newskey.nk_ts = 1488107500;
+  
+    utag_data.newskey = newskey.ck = "01ed7bfd9525a8b7f49b1c90137c33ed";
+  
+
+
+  
+    newskey.reset = false;
+
+
+
+    newskey.cb = "15070876359620.288426943348409";
+  
+
+newskey.time = "17-10-04 13:29";
+newskey.isnew = false;
+newskey.diff = (1507087781 - 1488107500);
+
+
+    newskey.checksum = "60477519";
+  
+
+
+
+    
+    utag_data.newskey_count = newskey.count = 230;
+
+    
+
+  
+
+utag_data.newskey_count24_t = newskey.count24_t = "17-10-04";
+
+
+
+    
+    utag_data.newskey_count24 = newskey.count24 = 5;
+
+    
+
+  
+
+
+
+
+  utag_data.tpc||(utag_data.tpc="");
+
+	newskey.geo = {};
+
+
+     utag_data.newskey_geo_country = newskey.geo.country="AU".toLowerCase();
+  
+
+
+     utag_data.newskey_geo_region = newskey.geo.region= "VIC".toLowerCase();
+  
+
+
+     utag_data.newskey_geo_city = newskey.geo.city= "GEELONG".toLowerCase();
+  
+
+
+     utag_data.newskey_geo_lat = newskey.geo.lat= "-38.16".toLowerCase();
+  
+
+
+
+     utag_data.newskey_geo_long = newskey.geo.long= "144.35".toLowerCase();
+  
+
+
+     utag_data.newskey_geo_tmz = newskey.geo.tmz= "GMT+10".toLowerCase();
+  
+
+
+     utag_data.newskey_geo_network = newskey.geo.network= "telstra".toLowerCase();
+  
+	/*! 6b036f812a2606cadd120c5e60dde5895d22e6d8 */
+// Do any on page cookie/localStorage manipulation required
+// as the ESI code cannot set/read cookies on the pages domain
+//
+// Also remove nk and net_sub_uid parameters from the query string
+// to avoid sharing/copy paste of identifiers
+//
+// When this code is called window.newskey.nk contains the value
+// of the nk cookie on the news.com.au domain (if it exists) and
+// window.newskey.ck contains the value of the ck cookie on
+// the news.com.au domain (whether or not it exists, e.g. Safari)
+(function(){
+    var findCookieDomain = function() {
+        // test cookie domains until we find the first one that works
+        // so that we can always set cookies at the top level domain
+        var domain = '';
+        var parts = location.hostname.split('.');
+        for (var i = parts.length-1; i >= 0; i--) {
+            domain = parts.slice(i).join('.');
+            document.cookie = 'domtes2=1;path=/;domain='+domain;
+            if (/domtes2=1/.test(document.cookie.toString())) {
+                document.cookie = 'domtes2=;path=/;expires='+new Date(0).toUTCString()+';domain='+domain;
+                break;
+            }
+        }
+        return domain;
+    };
+
+    // Get all values for this cookie
+    var getAllValues = function(name) {
+        var regexp = new RegExp("(^"+name+"|; *"+name+")=([^;]*)", "g");
+        var result = [];
+        var myArray;
+        while ((myArray = regexp.exec(document.cookie)) !== null) {
+            result.push(myArray[2]);
+        }
+        return result;
+    };
+
+    // If two cookies are received in the HTTP header
+    // ESI puts them in a string like "['val1', 'val2']"
+    // Here we just grab the first value and use that
+    var firstCookieValue = function(value) {
+        var match = /^\[\'([^\']*)\'\,.*\]/.exec(value);
+        return match ? match[1] : value;
+    };
+
+    newskey.nk = firstCookieValue(newskey.nk);
+    utag_data.yoc = firstCookieValue(utag_data.yoc);
+    
+    // Use the nk query parameter as a backup if the cookie is not present
+    if (!newskey.nk) {
+      m = /[?&]nk=([^&?]*)/.exec(location.search);
+      if (m) {
+        newskey.nk = m[1];
+      }
+    }
+
+    // Check for the net_sub_uid parameter in the query string
+    // Note: 
+    //      net_sub_uid_hit parameter is used by px2 processor.
+    //                      it means that a net_sub_uid was seen in the URL
+    //      net_sub_uid parameter is used by px1 processor.
+    //                      it means that a **new** net_sub_uid was seen in the URL     
+    m = /[?&]net_sub_uid=([0-9a-z]+)(&|$)+/.exec(location.search);
+    if (m) {
+      utag_data.net_sub_uid_hit = m[1];
+    }
+
+    var k = 'newskey', local = window.localStorage;
+    if (navigator.cookieEnabled) {
+        var oneYear = new Date();
+        oneYear.setTime(oneYear.getTime() + 31536000000);
+        var threeYear = new Date();
+        threeYear.setTime(threeYear.getTime() + 94608000000);
+        var domain = findCookieDomain();
+
+        var currentNk = getAllValues('nk');
+        var currentChk = getAllValues('nk_chk');
+        var currentTs = getAllValues('nk_ts');
+        var currentNetSubUid = getAllValues('net_sub_uid');
+
+        // set the local nk cookie if we have a value
+        // newskey.nk is only set if it was sent to us from the browser, otherwise we try to set it on news.com.au, and set it here on the local domain on the next page view.
+        // This provides insurance if third party cookies are blocked by not setting nk to a different value each time.
+        // ie. the nk cookie will only be set on the local domain if it is valid.  Otherwise you can use the newskey cookie as an always present but less reliable across domains identifier
+        
+        // Only set the newskey if we don't have one or we are sure 3PC is working (isnew==false if it is working), or it has been specifically reset (eg, by ntag) 
+        if (newskey.nk && (!currentNk.length || newskey.isnew !== true || newskey.reset)) {
+            if (currentNk.length > 0 && (domain == 'news.com.au' || currentNk[0] == newskey.nk)) {
+                // Newskey was already set by utrack, or we're already on news.com.au
+            }
+            else {
+                document.cookie= "nk="+ escape(newskey.nk) + ";expires="+oneYear.toUTCString()+';path=/;domain='+domain;
+                document.cookie= "nk_src=utrack.js ;expires="+oneYear.toUTCString()+';path=/;domain='+domain;
+                document.cookie= "nk_ts="+ escape(Math.floor(oneYear.getTime()/1000)) + " ;expires="+oneYear.toUTCString()+';path=/;domain='+domain;
+                
+                // Krux depends on the newskey cookie, so set it.
+                document.cookie= k + "="+ escape(newskey.nk) + "; expires="+oneYear.toUTCString()+'; path=/;domain='+domain;
+                document.cookie= k + "_src=utrack.js ;expires="+oneYear.toUTCString()+';path=/;domain='+domain;
+                document.cookie= k + "_ts="+ escape(Math.floor(oneYear.getTime()/1000)) + " ;expires="+oneYear.toUTCString()+';path=/;domain='+domain;
+            }
+			// Newskey Checksum, also known as nk2
+            if (currentChk.length > 0 && (domain == 'news.com.au' || currentNk[0] == newskey.nk)) {
+                // Newskey Cheksum was already set by utrack, or we're already on news.com.au or newskey hasn't changed
+            }
+            else {
+                document.cookie= "nk_chk="+ escape(newskey.checksum) + ";expires="+oneYear.toUTCString()+';path=/;domain='+domain; 
+            }  
+        }
+        else if (currentNk[0]){
+            // See if there's a timestamp in the newskey...
+            var split = currentNk[0].split('-');
+            if (split[1]) {
+                // Respect the cookie if the timestamp is within 30 secs... but clean it up.
+                // This is for sites which don't include the fw.raw_esi script
+                if (split[1].length == 10 && (Math.floor(new Date().getTime()/1000) - parseInt(split[1],10) < 30)) {
+                    document.cookie= "nk="+ escape(split[0]) + ";expires="+oneYear.toUTCString()+';path=/;domain='+domain;
+                    currentNk[0] = split[0];
+                }
+                else {
+                    // Timestamp is out of bounds, unset nk cookie.
+                    document.cookie= "nk="+ escape('') + ';expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/;domain='+domain;
+                    currentNk[0] = '';
+                }
+            }
+            // If we already have a newskey and it hasn't been reset and 3PC is not working, leave it as it is.
+            if (newskey.nk && newskey.nk != currentNk[0]) {
+                newskey.nk_src += '|3PC=0'; 
+                if (!currentTs.length || (Math.floor(new Date().getTime()/1000) - parseInt(currentTs[0],10) > 30)) {
+                    newskey.isnew = false;
+                }
+            }
+            newskey.nk = newskey.ck = utag_data.newskey = currentNk[0];
+            // There's one extra special case for when the local chk cookie hasn't been set   
+            if (!currentChk.length) {
+                // Newskey Checksum, also known as nk2
+                document.cookie= "nk_chk="+ escape(newskey.checksum) + ";expires="+oneYear.toUTCString()+';path=/;domain='+domain;
+            } 
+            else {
+                newskey.checksum = currentChk[0];
+            }
+        }
+
+        utag_data.newskey = newskey.nk;
+
+        // get the value of the local newskey cookie
+        var pageNewskey = document.cookie.match(k + '=([^;]*)');
+        pageNewskey = (pageNewskey && unescape(pageNewskey[1])) || false;
+
+        // Set the ck value (althrough looks like this is not used anywhere...)
+        if (pageNewskey) {
+            newskey.ck = pageNewskey;
+        } 
+        // Lets get rid of the domain specific newskey cookies
+        document.cookie= "nk=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/";
+        document.cookie= "newskey=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/";
+
+        if (utag_data.yoc) {
+            document.cookie= "yoc="+ escape(utag_data.yoc) + ";expires="+threeYear.toUTCString()+';path=/;domain='+domain;
+        }
+        if (utag_data.net_sub_uid_hit) {
+            document.cookie= "net_sub_uid="+ escape(utag_data.net_sub_uid_hit) + "; expires="+threeYear.toUTCString()+'; path=/;domain='+domain;
+            utag_data.net_sub_uid = utag_data.net_sub_uid_hit; 
+        }
+    } else if (local) {
+        if(local[k]){
+            newskey.ck = (local[k] || newskey.ck);
+        } else {
+            local[k] = newskey.ck;
+        }
+    }
+    
+    var qs = location.search;
+    var pn = location.pathname;
+    qs=qs.replace(/\?nk=[^&]*&/,'?');
+    qs=qs.replace(/&nk=[^&]*&/g,'&');
+    qs=qs.replace(/&nk=.*$/,'');
+    qs=qs.replace(/\?nk=.*$/,'');
+    qs=qs.replace(/\?net_sub_uid=[^&]*&/,'?');
+    qs=qs.replace(/&net_sub_uid=[^&]*&/g,'&');
+    qs=qs.replace(/&net_sub_uid=.*$/,'');
+    qs=qs.replace(/\?net_sub_uid=.*$/,'');
+    // Need to strip email addresses from malformed urls to avoid sending them to Google
+    qs=qs.replace(/[\w-]+@([\w-]+\.)+[\w-]+/,'');
+    pn=pn.replace(/[\w-]+@([\w-]+\.)+[\w-]+/,'');
+    if (qs != location.search || pn != location.pathname) {
+        // Modern browsers, don't refresh, just get rid of the affecting parameters
+        if (window.history && history.replaceState) {
+            history.replaceState({}, '', location.href.replace(location.pathname, pn).replace(location.search, qs));
+        }
+    }
+})();
+	
+	newskey.utrack_loaded = true;
+}
+else {
+}

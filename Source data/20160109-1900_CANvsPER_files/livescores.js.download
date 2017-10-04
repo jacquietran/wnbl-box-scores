@@ -1,0 +1,70 @@
+  jQuery(document).ready(function() {
+    load_livescores();
+    SP_livescores_script_available = 1;
+});
+function load_livescores(overrideexisting)  {
+    var fixtureIDs = [];
+    jQuery('.fixturerow').each(function(index)  {
+       var extfix = jQuery(this).attr('id') || '';
+       extfix = extfix.replace(/extfix_/,''); 
+       fixtureIDs.push(extfix);
+    });
+    var fixturelist = fixtureIDs.join(',');
+    if(fixturelist) {
+        jQuery.getJSON('http://websites.sportstg.com/livescores.cgi?callback=?',{f : fixturelist}, function(json)   {
+            jQuery.each(json.matches, function(index, match) {
+                if(match.homescore) {
+                    if (jQuery('.homescore').children().length > 0 ) {
+                        if (jQuery(".sport-id-4")[0] || jQuery(".l2015.spid-4")[0]){
+                           var f  = jQuery('#extfix_' + match.id + ' .homescore .small-score');
+                           var fBig = jQuery('#extfix_' + match.id + ' .homescore .big-score');
+                           var existingBig = overrideexisting ? '' : jQuery(fBig).html();
+                        }
+                        else {
+                            var f = jQuery(".l2015")[0]  ? jQuery('#extfix_' + match.id + ' .homescore .big-score') : jQuery('#extfix_' + match.id + ' .homescore');
+                        }
+                    }
+                    else {
+                        var f = jQuery(".l2015")[0]  ? jQuery('#extfix_' + match.id + ' .homescore .big-score') : jQuery('#extfix_' + match.id + ' .homescore');
+                    }
+                    var existing = overrideexisting ? '' : jQuery(f).html();
+                    if(!existing || existing == '&nbsp;')   {
+                        jQuery(f).html(match.homescore).addClass('livescore');
+                        if(jQuery('.homescore.livescore').length) {
+                          jQuery('.m-detail,.m-venue').hide()
+                          
+                        }
+                        if (jQuery(".sport-id-4")[0]){
+                            jQuery(fBig).html(match.homescore.substring(match.homescore.lastIndexOf("-") + 1));
+                        }
+                        jQuery('#extfix_' + match.id + ' .matchdate .livenow, #extfix_' + match.id + ' .match-result .livenow, #extfix_' + match.id + ' #match-status .livenow, #extfix_' + match.id + ' .vstxtwrap .livenow').show();
+                        jQuery('#extfix_' + match.id + ' .matchdate .notlive, #extfix_' + match.id + ' .match-result .notlive, #extfix_' + match.id + ' #match-status .notlive, #extfix_' + match.id + ' .vstxtwrap .notlive').hide();
+                    }
+                }
+                if(match.awayscore) {
+                    if (jQuery('.awayscore').children().length > 0 ) {
+                        if (jQuery(".sport-id-4")[0]  || jQuery(".l2015.spid-4")[0]){
+                           var f  = jQuery('#extfix_' + match.id + ' .awayscore .small-score');
+                           var fBig = jQuery('#extfix_' + match.id + ' .awayscore .big-score');
+                           var existingBig = overrideexisting ? '' : jQuery(fBig).html();
+                        }
+                        else {
+                            var f = jQuery(".l2015")[0]  ? jQuery('#extfix_' + match.id + ' .awayscore .big-score') : jQuery('#extfix_' + match.id + ' .awayscore');
+                        }
+
+                    }
+                    else {
+                        var f = jQuery(".l2015")[0]  ? jQuery('#extfix_' + match.id + ' .awayscore .big-score') : jQuery('#extfix_' + match.id + ' .awayscore');
+                    }
+                    var existing = overrideexisting ? '' : jQuery(f).html();
+                    if(!existing || existing == '&nbsp;')   {
+                        jQuery(f).html(match.awayscore).addClass('livescore');
+                        if (jQuery(".sport-id-4")[0]){
+                            jQuery(fBig).html(match.awayscore.substring(match.awayscore.lastIndexOf("-") + 1));
+                        }
+                    }
+                }
+            }); 
+        });
+    }
+}

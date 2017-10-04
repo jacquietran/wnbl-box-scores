@@ -1,0 +1,81 @@
+
+
+
+
+/* ControlTag Loader for Sporting Pulse b54a6e33-8e6b-43cd-8147-253f361b0954 */
+(function(w, cs) {
+  
+  if (/Twitter for iPhone/.test(w.navigator.userAgent || '')) {
+    return;
+  }
+
+  var debugging = /kxdebug/.test(w.location);
+  var log = function() {
+    
+    debugging && w.console && w.console.log([].slice.call(arguments).join(' '));
+  };
+
+  var load = function(url, callback) {
+    log('Loading script from:', url);
+    var node = w.document.createElement('script');
+    node.async = true;  
+    node.src = url;
+
+    
+    node.onload = node.onreadystatechange = function () {
+      var state = node.readyState;
+      if (!callback.done && (!state || /loaded|complete/.test(state))) {
+        log('Script loaded from:', url);
+        callback.done = true;  
+        callback();
+      }
+    };
+
+    
+    var sibling = w.document.getElementsByTagName('script')[0];
+    sibling.parentNode.insertBefore(node, sibling);
+  };
+
+  var config = {"app":{"name":"krux-scala-config-webservice","version":"3.31.5","schema_version":3},"confid":"I_1dUcQn","context_terms":[],"publisher":{"name":"Sporting Pulse","active":true,"uuid":"b54a6e33-8e6b-43cd-8147-253f361b0954","version_bucket":"stable","id":2175},"params":{"link_header_bidder":false,"site_level_supertag_config":"site","recommend":false,"control_tag_pixel_throttle":100,"fingerprint":false,"user_data_timing":"load","use_central_usermatch":true,"store_realtime_segments":false,"tag_source":false,"link_hb_start_event":"ready","first_party_uid":false,"link_hb_timeout":2000,"link_hb_adserver_subordinate":true,"optimize_realtime_segments":false,"link_hb_adserver":"dfp","target_fingerprint":false,"context_terms":false,"dfp_premium":true},"prioritized_segments":[],"realtime_segments":[],"services":{"userdata":"//cdn.krxd.net/userdata/get","contentConnector":"//connector.krxd.net/content_connector","stats":"//apiservices.krxd.net/stats","optout":"//cdn.krxd.net/userdata/optout/status","event":"//beacon.krxd.net/event.gif","set_optout":"https://consumer.krxd.net/consumer/optout","data":"//beacon.krxd.net/data.gif","link_hb_stats":"//beacon.krxd.net/link_bidder_stats.gif","userData":"//cdn.krxd.net/userdata/get","link_hb_mas":"//link.krxd.net/hb","config":"//cdn.krxd.net/controltag/{{ confid }}.js","social":"//beacon.krxd.net/social.gif","addSegment":"//cdn.krxd.net/userdata/add","pixel":"//beacon.krxd.net/pixel.gif","um":"https://usermatch.krxd.net/um/v2","controltag":"//cdn.krxd.net/ctjs/controltag.js.{hash}","click":"//apiservices.krxd.net/click_tracker/track","stats_export":"//beacon.krxd.net/controltag_stats.gif","userdataApi":"//cdn.krxd.net/userdata/v1/segments/get","cookie":"//beacon.krxd.net/cookie2json","proxy":"//cdn.krxd.net/partnerjs/xdi","is_optout":"//beacon.krxd.net/optout_check","impression":"//beacon.krxd.net/ad_impression.gif","transaction":"//beacon.krxd.net/transaction.gif","log":"//jslog.krxd.net/jslog.gif","set_optin":"https://consumer.krxd.net/consumer/optin","usermatch":"//beacon.krxd.net/usermatch.gif"},"site":{"name":"foxsportspulse.com","cap":255,"id":1646805,"organization_id":2175,"uid":"I_1dUcQn"},"tags":[{"id":26843,"name":"Technographic Data provider tag","content":"<script>\r\n// this tag is intentionally blank\r\n</script>","target":null,"target_action":"append","timing":"onload","method":"document","priority":null,"template_replacement":true,"internal":true,"criteria":["and",["and",["and",["<=","$frequency",3]]]]},{"id":26844,"name":"Krux Geographic Data provider tag","content":null,"target":null,"target_action":"append","timing":"onload","method":"document","priority":null,"template_replacement":true,"internal":true,"criteria":["and",["and",["and",["<=","$frequency",3]]]]},{"id":26845,"name":"Sporting Pulse - DEC","content":"<script>\r\n// Using Globals utag_data.ss_sp_agegrp2\r\nKrux('scrape', { \"page_attr_utag_data.ss_sp_agegrp2\": {js_global: \"utag_data.ss_sp_agegrp2\"}});\r\n  \r\n// Using Globals utag_data.ss_sp_gender\r\nKrux('scrape', { \"page_attr_utag_data.ss_sp_gender\": {js_global: \"utag_data.ss_sp_gender\"}});\r\n  \r\n// Using Globals utag_data.ss_sp_pc2\r\nKrux('scrape', { \"page_attr_utag_data.ss_sp_pc2\": {js_global: \"utag_data.ss_sp_pc2\"}});\r\n  \r\n// Using Globals utag_data.ss_sp_busunit to produce page attribute utag_data.ss_sp_busunit\r\nKrux('scrape', { \"page_attr_utag_data.ss_sp_busunit\": {js_global: \"utag_data.ss_sp_busunit\"}});\r\n// Using Globals utag_data.ss_sp_clubid to produce page attribute utag_data.ss_sp_clubid\r\nKrux('scrape', { \"page_attr_utag_data.ss_sp_clubid\": {js_global: \"utag_data.ss_sp_clubid\"}});\r\n// Using Globals utag_data.ss_sp_clubname to produce page attribute utag_data.ss_sp_clubname\r\nKrux('scrape', { \"page_attr_utag_data.ss_sp_clubname\": {js_global: \"utag_data.ss_sp_clubname\"}});\r\n// Using Globals utag_data.ss_sp_country to produce page attribute utag_data.ss_sp_country\r\nKrux('scrape', { \"page_attr_utag_data.ss_sp_country\": {js_global: \"utag_data.ss_sp_country\"}});\r\n// Using Globals utag_data.ss_sp_eid to produce page attribute utag_data.ss_sp_eid\r\nKrux('scrape', { \"page_attr_utag_data.ss_sp_eid\": {js_global: \"utag_data.ss_sp_eid\"}});\r\n// Using Globals utag_data.ss_sp_etid to produce page attribute utag_data.ss_sp_etid\r\nKrux('scrape', { \"page_attr_utag_data.ss_sp_etid\": {js_global: \"utag_data.ss_sp_etid\"}});\r\n// Using Globals utag_data.ss_sp_leagueid to produce page attribute utag_data.ss_sp_leagueid\r\nKrux('scrape', { \"page_attr_utag_data.ss_sp_leagueid\": {js_global: \"utag_data.ss_sp_leagueid\"}});\r\n// Using Globals utag_data.ss_sp_leaguename to produce page attribute utag_data.ss_sp_leaguename\r\nKrux('scrape', { \"page_attr_utag_data.ss_sp_leaguename\": {js_global: \"utag_data.ss_sp_leaguename\"}});\r\n// Using Globals utag_data.ss_sp_lga to produce page attribute utag_data.ss_sp_lga\r\nKrux('scrape', { \"page_attr_utag_data.ss_sp_lga\": {js_global: \"utag_data.ss_sp_lga\"}});\r\n// Using Globals utag_data.ss_sp_mcc to produce page attribute utag_data.ss_sp_mcc\r\nKrux('scrape', { \"page_attr_utag_data.ss_sp_mcc\": {js_global: \"utag_data.ss_sp_mcc\"}});\r\n// Using Globals utag_data.ss_sp_prod to produce page attribute utag_data.ss_sp_prod\r\nKrux('scrape', { \"page_attr_utag_data.ss_sp_prod\": {js_global: \"utag_data.ss_sp_prod\"}});\r\n// Using Globals utag_data.ss_sp_sportcode to produce page attribute utag_data.ss_sp_sportcode\r\nKrux('scrape', { \"page_attr_utag_data.ss_sp_sportcode\": {js_global: \"utag_data.ss_sp_sportcode\"}});\r\n// Using Globals utag_data.ss_sp_sportname to produce page attribute utag_data.ss_sp_sportname\r\nKrux('scrape', { \"page_attr_utag_data.ss_sp_sportname\": {js_global: \"utag_data.ss_sp_sportname\"}});\r\n// Using Globals utag_data.ss_sp_state to produce page attribute utag_data.ss_sp_state\r\nKrux('scrape', { \"page_attr_utag_data.ss_sp_state\": {js_global: \"utag_data.ss_sp_state\"}});\r\n</script>","target":"","target_action":"append","timing":"onload","method":"document","priority":null,"template_replacement":true,"internal":true,"criteria":[]},{"id":26846,"name":"PPID DTC","content":"<script>\r\n(function(){\r\n    Krux('scrape', {\"user_attr_ppid\": {cookie: 'kx_pub_fpuserid'}});\r\n})();\r\n</script>","target":"","target_action":"append","timing":"onload","method":"document","priority":null,"template_replacement":true,"internal":true,"criteria":[]}],"usermatch_tags":[],"link":{"adslots":{},"bidders":{}}};
+  
+  for (var i = 0, tags = config.tags, len = tags.length, tag; (tag = tags[i]); ++i) {
+    if (String(tag.id) in cs) {
+      tag.content = cs[tag.id];
+    }
+  }
+
+  
+  var esiGeo = String(function(){/*
+   <esi:include src="/geoip_esi"/>
+  */}).replace(/^.*\/\*[^{]+|[^}]+\*\/.*$/g, '');
+
+  if (esiGeo) {
+    log('Got a request for:', esiGeo, 'adding geo to config.');
+    try {
+      config.geo = w.JSON.parse(esiGeo);
+    } catch (__) {
+      
+      log('Unable to parse geo from:', config.geo);
+      config.geo = {};
+    }
+  }
+
+
+
+  var proxy = (window.Krux && window.Krux.q && window.Krux.q[0] && window.Krux.q[0][0] === 'proxy');
+
+  if (!proxy || true) {
+    
+
+  load('//cdn.krxd.net/ctjs/controltag.js.73f4c3c5d949eb6203a73b137d7242c4', function() {
+    log('Loaded stable controltag resource');
+    Krux('config', config);
+  });
+
+  }
+
+})(window, (function() {
+  var obj = {};
+  
+  return obj;
+})());

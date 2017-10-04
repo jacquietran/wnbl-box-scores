@@ -1,0 +1,18 @@
+@media print {
+	#globalnav, #nav-wrap-radius, #col-3-wrap, #footer-wrap, #header-wrap, .adwrap-leaderboard, #historybar{
+	display:none;
+	}
+	.site-heading-custom{
+	font-size:15px;
+	}
+	#content .SectionTitle{
+	font-size:15px;
+	}
+	#site-wrap{
+	width:90%;
+	}
+	#content {
+	width:90%;
+	margin:auto;
+	}
+  }
