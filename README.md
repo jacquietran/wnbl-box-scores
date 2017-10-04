@@ -33,7 +33,7 @@ If anyone has access to the complete box scores for the games listed below, plea
 ## Version history
 
 * v1.2: Published on 04/10/2017
-     * [x] Incorporated box score data from an alternative source due to missing data on FIBA Live Stats website from 3 games in the 2015 / 2016 season
+     * [x] Incorporated box score data from an alternative source due to missing data on FIBA Live Stats website from 1 game in the 2015 / 2016 season
      * [x] Fixed errors in the data scraping script for 2015 / 2016 season
 * v1.1: Published on 03/10/2017
      * [x] Incorporated box score data from an alternative source due to missing data on FIBA Live Stats website from 3 games in the 2014 / 2015 season
